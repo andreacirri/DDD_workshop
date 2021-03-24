@@ -1,13 +1,14 @@
 package com.ddd.workshop;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
-
-public class TestTest {
+public class TestClassTest {
 
 	@Test
-	public void test(){
-
+	public void Should_ReturnTrue(){
+		TestClass testClass = new TestClass();
+		Assert.assertTrue(testClass.returnTrue());
 	}
 
 }

@@ -1,9 +1,9 @@
 package com.ddd.workshop;
 
-public class Test {
+public class TestClass {
 
-	public void testMethod() {
-
+	public boolean returnTrue() {
+		return true;
 	}
 
 }

@@ -11,11 +11,15 @@ import static org.hamcrest.Matchers.is;
 
 public class Ex1Test {
 
-	class TestReservationRepository implements ReservationRepositoryInterface {
+	static class TestReservationRepository implements ReservationRepositoryInterface {
 
 		Screening screening;
 
-		public TestReservationRepository(Screening screening) {
+		public static TestReservationRepository of(Screening screening) {
+			return new TestReservationRepository(screening);
+		}
+
+		private TestReservationRepository(Screening screening) {
 			this.screening = screening;
 		}
 
@@ -30,10 +34,9 @@ public class Ex1Test {
 
 		final int availableSeats = 2;
 		ReservationCommand reservationCommand = ReservationCommand.of(2);
-		TestReservationRepository repository = new TestReservationRepository(Screening.of(availableSeats));
+		ReservationRepositoryInterface repository = TestReservationRepository.of(Screening.of(availableSeats));
 
-		ReservationHandler reservationHandler = new ReservationHandler(repository);
-		reservationHandler.handle(reservationCommand);
+		ReservationHandler.of(repository).handle(reservationCommand);
 
 		assertThat(repository.get(), is(Screening.of(availableSeats - reservationCommand.seats)));
 	}
@@ -43,10 +46,9 @@ public class Ex1Test {
 
 		final int availableSeats = 1;
 		ReservationCommand reservationCommand = ReservationCommand.of(2);
-		TestReservationRepository repository = new TestReservationRepository(Screening.of(availableSeats));
+		ReservationRepositoryInterface repository = TestReservationRepository.of(Screening.of(availableSeats));
 
-		ReservationHandler reservationHandler = new ReservationHandler(repository);
-		reservationHandler.handle(reservationCommand);
+		ReservationHandler.of(repository).handle(reservationCommand);
 
 		assertThat(repository.get(), is(Screening.of(availableSeats)));
 	}

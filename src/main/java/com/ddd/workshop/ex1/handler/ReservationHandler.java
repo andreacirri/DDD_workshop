@@ -8,7 +8,11 @@ public class ReservationHandler {
 
 	private ReservationRepositoryInterface repository;
 
-	public ReservationHandler(ReservationRepositoryInterface repository) {
+	public static ReservationHandler of(ReservationRepositoryInterface repository) {
+		return new ReservationHandler(repository);
+	}
+
+	private ReservationHandler(ReservationRepositoryInterface repository) {
 		this.repository = repository;
 	}
 

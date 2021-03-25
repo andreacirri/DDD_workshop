@@ -2,7 +2,10 @@ package com.ddd.workshop.ex1.handler;
 
 import com.ddd.workshop.ex1.aggregate.Screening;
 import com.ddd.workshop.ex1.command.ReservationCommand;
+import com.ddd.workshop.ex1.model.ReservationResult;
 import com.ddd.workshop.ex1.repository.ReservationRepositoryInterface;
+
+import static com.ddd.workshop.ex1.model.ReservationResult.*;
 
 public class ReservationHandler {
 
@@ -16,10 +19,9 @@ public class ReservationHandler {
 		this.repository = repository;
 	}
 
-	public void handle(ReservationCommand reservationCommand) {
-
+	public ReservationResult handle(ReservationCommand reservationCommand) {
 		Screening screening = repository.get();
-		screening.reserveSeats(reservationCommand.seats);
-
+		boolean reservationResult = screening.reserveSeats(reservationCommand.seats);
+		return reservationResult ? SUCCESS : FAIL;
 	}
 }

@@ -14,10 +14,12 @@ public class Screening {
 		this.availableSeats = availableSeats;
 	}
 
-	public void reserveSeats(int seats) {
+	public boolean reserveSeats(int seats) {
 		if(availableSeats >= seats) {
 			availableSeats -= seats;
+			return true;
 		}
+		return false;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.ddd.workshop.ex;
 
+import com.ddd.workshop.cqrs.domain.aggregate.ScreeningReadModel;
 import com.ddd.workshop.cqrs.infrastructure.CommandHandler;
 import com.ddd.workshop.cqrs.infrastructure.QueryHandler;
 
@@ -12,9 +13,9 @@ import static org.hamcrest.Matchers.is;
 
 public class BaseTest {
 	List<Object> _history;
-	List<Object> _published_events;
+	List<Object> _published_events = new ArrayList<>();
 	Object _query_response;
-	Object _read_model;
+	ScreeningReadModel _read_model;
 
 	void Given(Object ...events) { //Provide a history of the events for the commandhandler
 		_history = new ArrayList<>();
@@ -27,7 +28,7 @@ public class BaseTest {
 	}
 
 	void Then_expect(Object ...events){ // -> //Compare the published events with the expected events
-		assertThat(_published_events, is(events));
+		assertThat(_published_events, is(Arrays.asList(events.clone())));
 	}
 
 	void Then_expected_response(Object expected_response){
@@ -36,7 +37,7 @@ public class BaseTest {
 
 	public void Query(Object query) {
 		// create read model
-		// _readmodel = new Customer_Reservations_ReadModel(_history);
+		_read_model = new ScreeningReadModel(_history);
 		QueryHandler handler = new QueryHandler(_read_model, (q -> _query_response = q));
 		handler.query(query);
 	}

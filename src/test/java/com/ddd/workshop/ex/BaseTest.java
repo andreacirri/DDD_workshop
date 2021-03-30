@@ -1,7 +1,8 @@
 package com.ddd.workshop.ex;
 
-import com.ddd.workshop.cqrs.domain.aggregate.ScreeningReadModel;
+import com.ddd.workshop.cqrs.domain.aggregate.PendingReservation;
 import com.ddd.workshop.cqrs.infrastructure.CommandHandler;
+import com.ddd.workshop.cqrs.infrastructure.EventHandler;
 import com.ddd.workshop.cqrs.infrastructure.QueryHandler;
 
 import java.util.ArrayList;
@@ -15,7 +16,8 @@ public class BaseTest {
 	List<Object> _history;
 	List<Object> _published_events = new ArrayList<>();
 	Object _query_response;
-	ScreeningReadModel _read_model;
+	PendingReservation _read_model;
+	List<Object> _emitting_command;
 
 	void Given(Object ...events) { //Provide a history of the events for the commandhandler
 		_history = new ArrayList<>();
@@ -25,6 +27,11 @@ public class BaseTest {
 	void When(Object cmd) { //Instanitate the commandhandler and give it the command
 		CommandHandler handler = new CommandHandler(_history, e -> _published_events.add(e));
 		handler.handle(cmd);
+	}
+
+	void When_this_now_happened(Object event) { //Instanitate the eventHandler and give it the event
+		EventHandler handler = new EventHandler(_history, e -> _emitting_command.add(e));
+		handler.handle(event);
 	}
 
 	void Then_expect(Object ...events){ // -> //Compare the published events with the expected events
@@ -37,7 +44,7 @@ public class BaseTest {
 
 	public void Query(Object query) {
 		// create read model
-		_read_model = new ScreeningReadModel(_history);
+		_read_model = new PendingReservation(_history);
 		QueryHandler handler = new QueryHandler(_read_model, (q -> _query_response = q));
 		handler.query(query);
 	}

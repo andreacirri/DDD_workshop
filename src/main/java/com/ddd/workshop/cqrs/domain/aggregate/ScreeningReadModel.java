@@ -1,6 +1,5 @@
 package com.ddd.workshop.cqrs.domain.aggregate;
 
-import com.ddd.workshop.cqrs.domain.event.Screening_Created;
 import com.ddd.workshop.cqrs.domain.event.Seat_Reserved;
 import com.ddd.workshop.cqrs.domain.obj.Seat;
 
@@ -14,7 +13,7 @@ public class ScreeningReadModel {
 	Map<Seat, Boolean> reservedSeats;
 
 	public ScreeningReadModel(List<Object> events) {
-		events.forEach(event -> this.apply(event));
+//		events.forEach(event -> this.apply(event));
 	}
 
 	public List<Seat> freeSeats(){
@@ -27,21 +26,21 @@ public class ScreeningReadModel {
 		return freeSeats;
 	}
 
-	void apply(Object event){
-		if (event instanceof Screening_Created) {
-			apply((Screening_Created) event);
-		}
-
-		if (event instanceof Seat_Reserved) {
-			apply((Seat_Reserved) event);
-		}
-	}
-
-	void apply(Screening_Created event){
-
-		reservedSeats = new HashMap<>();
-		event.availableSeats.forEach(seat -> reservedSeats.put(seat, false));
-	}
+//	void apply(Object event){
+//		if (event instanceof Screening_Created) {
+//			apply((Screening_Created) event);
+//		}
+//
+//		if (event instanceof Seat_Reserved) {
+//			apply((Seat_Reserved) event);
+//		}
+//	}
+//
+//	void apply(Screening_Created event){
+//
+//		reservedSeats = new HashMap<>();
+//		event.availableSeats.forEach(seat -> reservedSeats.put(seat, false));
+//	}
 
 	void apply(Seat_Reserved event){
 		event.seats.forEach(seat -> reservedSeats.put(seat, true));

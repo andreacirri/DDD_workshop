@@ -1,7 +1,7 @@
 package com.ddd.workshop.cqrs.infrastructure;
 
 import com.ddd.workshop.cqrs.domain.aggregate.Screening;
-import com.ddd.workshop.cqrs.domain.command.Reserve_Seats;
+import com.ddd.workshop.cqrs.domain.command.ReserveSeats;
 
 import java.util.List;
 
@@ -17,8 +17,9 @@ public class CommandHandler {
 
 	public void handle(Object cmd) {
 
-		if (cmd instanceof Reserve_Seats) {
-			new Screening(history, addHistoryAndPublish()).reserveSeats(((Reserve_Seats) cmd).seats);
+		if (cmd instanceof ReserveSeats) {
+			Screening screening = new Screening(history, addHistoryAndPublish());
+			screening.reserveSeats(((ReserveSeats) cmd).getSeats(), ((ReserveSeats) cmd).getPerson());
 		}
 
 	}

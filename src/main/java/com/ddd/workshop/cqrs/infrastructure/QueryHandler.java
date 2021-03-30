@@ -1,23 +1,24 @@
 package com.ddd.workshop.cqrs.infrastructure;
 
-import com.ddd.workshop.cqrs.domain.aggregate.ScreeningReadModel;
-import com.ddd.workshop.cqrs.domain.query.FreeSeatsQuery;
-import com.ddd.workshop.cqrs.domain.query.FreeSeatsResponse;
+import com.ddd.workshop.cqrs.domain.aggregate.PendingReservation;
+import com.ddd.workshop.cqrs.domain.query.ReservationAmountQuery;
 
 public class QueryHandler {
 	Action<Object> _respond;
-	ScreeningReadModel _readModel;
+	PendingReservation _readModel;
 
 	// readModel needs to be a specific class ( with query methods)
-	public QueryHandler(ScreeningReadModel readModel, Action<Object> respond) {
+	public QueryHandler(PendingReservation readModel, Action<Object> respond) {
 		_respond = respond;
 		this._readModel = readModel;
 	}
 
 	public void query(Object query) {
 
-		if (query instanceof FreeSeatsQuery) {
-			_respond.publish(new FreeSeatsResponse(_readModel.freeSeats()));
+		if (query instanceof ReservationAmountQuery) {
+
+			// TODO
+			// _respond.publish(new ReservationAmount(_readModel.evalAmount(query)));
 		}
 	}
 
